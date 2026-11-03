@@ -9,12 +9,12 @@ Never commit secrets, IP addresses or `.env` files.
 ```
 /opt/infra/proxy        Caddy: the only container that publishes ports (80/443)
 /opt/easy-admin         app stack, its web service joins the "proxy" network
-/opt/<next-app>         same pattern
+/opt/family-finances    same pattern
 ```
 
 ```
 internet ──80/443──▶ caddy ──"proxy" network──▶ easy-admin:3000
-                                            └─▶ <next-app>:<port>
+                                            └─▶ family-finances:8000
 ```
 
 - **One Caddy for the whole server.** Only one process can listen on 443, so every domain goes through this one. It gets and renews the Let's Encrypt certificates and keeps them in the `caddy_data` volume.

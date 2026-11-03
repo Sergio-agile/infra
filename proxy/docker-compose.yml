@@ -17,6 +17,7 @@ services:
       # One directory per app (a directory, not a file: a bind-mounted file keeps
       # pointing at the old copy after `git pull` replaces it).
       - /opt/easy-admin/deploy/caddy:/etc/caddy/sites/easy-admin:ro
+      - /opt/family-finances/deploy/caddy:/etc/caddy/sites/family-finances:ro
       - caddy_data:/data
       - caddy_config:/config
     networks:
