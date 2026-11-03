@@ -1,0 +1,4 @@
+# Every app ships its own site block (deploy/caddy/*.caddy in its repo),
+# mounted under /etc/caddy/sites/<app>/ by docker-compose.yml.
+# One line per app: Caddy's import allows a single wildcard.
+import sites/easy-admin/*.caddy

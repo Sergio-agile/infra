@@ -1,0 +1,31 @@
+# Shared reverse proxy for every app on the server.
+#   cd /opt/infra/proxy && docker compose up -d
+# Caddy owns ports 80/443, gets and renews the Let's Encrypt certificates and
+# routes each domain to its app over the "proxy" network. Each app keeps its own
+# site block in its repo; this stack only mounts and imports them.
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      # One directory per app (a directory, not a file: a bind-mounted file keeps
+      # pointing at the old copy after `git pull` replaces it).
+      - /opt/easy-admin/deploy/caddy:/etc/caddy/sites/easy-admin:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    name: proxy
+
+volumes:
+  caddy_data:
+  caddy_config:
